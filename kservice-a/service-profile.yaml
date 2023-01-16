@@ -1,0 +1,17 @@
+apiVersion: linkerd.io/v1alpha2
+kind: ServiceProfile
+metadata:
+  name: kservice-a.nms-capacitacion.svc.cluster.local
+  namespace: nms-capacitacion
+spec:
+  routes:
+    - condition:
+        method: GET
+        pathRegex: /.*
+      name: GET ALL
+      isRetryable: true
+      timeout: 300ms
+  retryBudget:
+    retryRatio: 0.2
+    minRetriesPerSecond: 10
+    ttl: 10s
