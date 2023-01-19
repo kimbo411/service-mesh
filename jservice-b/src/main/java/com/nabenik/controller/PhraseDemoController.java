@@ -9,6 +9,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import java.util.Random;
 import org.jboss.logging.Logger;
 
@@ -26,14 +28,14 @@ public class PhraseDemoController {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Fallback(fallbackMethod = "doPhraseDemoFallback")
-    public String doPhraseDemo(){
+    public Response doPhraseDemo(){
         var randIndex = new Random().nextInt(3) +1;
         var phrase = this.admPhraseRepository.findById(Long.valueOf(randIndex));
-        return "Recibi la frase \"" + phrase.getPhrase() + "\" sabiduria pura por - " + phrase.getAuthor();
+        return Response.status(Status.OK).entity("Recibi la frase \"" + phrase.getPhrase() + "\" sabiduria pura por - " + phrase.getAuthor()).build();
     }
 
-    public String doPhraseDemoFallback(){
-        return  "El sistema esta en modo de mantenimiento, vuelva mas tarde";
+    public Response doPhraseDemoFallback(){
+        return  Response.status(Status.INTERNAL_SERVER_ERROR).entity("El sistema esta en modo de mantenimiento, vuelva mas tarde").build();
     }
 
 }
