@@ -23,11 +23,5 @@ public interface AdmPhraseRepository {
     @Path("/{id:[0-9][0-9]*}")
     public AdmPhrase findById(@PathParam("id") Long id);
 
-    @ClientExceptionMapper
-    static RuntimeException toException(Response response) {
-        if (response.getStatus() == 500) {
-            return new RuntimeException("The remote service responded with HTTP 500");
-        }
-        return null;
-    }
+   
 }
